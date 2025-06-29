@@ -1,24 +1,13 @@
 import dbConnect from '../../lib/db'
 import Todo from '../../models/Todo'
-import jwt from 'jsonwebtoken'
-
-const SECRET = process.env.JWT_SECRET || 'secret'
-
-async function auth(req) {
-  const { authorization } = req.headers
-  if (!authorization) return null
-  const [, token] = authorization.split(' ')
-  try {
-    return jwt.verify(token, SECRET)
-  } catch {
-    return null
-  }
-}
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from './auth/[...nextauth]'
 
 export default async function handler(req, res) {
   await dbConnect()
-  const user = await auth(req)
-  if (!user) return res.status(401).json({ message: 'Unauthorized' })
+  const session = await getServerSession(req, res, authOptions)
+  if (!session) return res.status(401).json({ message: 'Unauthorized' })
+  const user = { id: session.user.id }
 
   if (req.method === 'GET') {
     const todos = await Todo.find({ userId: user.id })

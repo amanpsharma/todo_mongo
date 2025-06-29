@@ -1,10 +1,11 @@
 # Todo App with Next.js, Tailwind CSS and MongoDB
 
 This is a simple Todo application with user registration and login built with Next.js. Tasks are stored in MongoDB.
+Authentication is handled by **NextAuth.js** and supports email/password as well as Google accounts.
 
 ## Features
 
-- User registration and authentication with JSON Web Tokens
+- User registration with email/password and optional Google Sign-In
 - Create, toggle and delete todo items
 - Styled with Tailwind CSS
 
@@ -16,9 +17,11 @@ This is a simple Todo application with user registration and login built with Ne
    ```
 2. Create a `.env.local` file and provide the following variables:
    ```env
-   MONGODB_URI=your-mongodb-connection-string
-   JWT_SECRET=your-secret
-   ```
+  MONGODB_URI=your-mongodb-connection-string
+  JWT_SECRET=your-secret
+  GOOGLE_CLIENT_ID=your-google-client-id
+  GOOGLE_CLIENT_SECRET=your-google-client-secret
+  ```
 3. Run the development server:
    ```bash
    npm run dev
